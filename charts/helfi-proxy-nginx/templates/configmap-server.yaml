@@ -67,37 +67,6 @@ data:
         proxy_set_header X-Forwarded-By '';
         proxy_set_header X-Forwarded '';
 
-        # -------------------------------------------------------
-        # Metatavu search (Fixed targets)
-        # -------------------------------------------------------
-        location ~ ^\/haku\/(?:.*)\.(css|json|js)$ {
-            proxy_ssl_server_name on;
-            set $args '';
-            proxy_pass https://helsinki-search-results.metatavu.io;
-            proxy_set_header Host helsinki-search-results.metatavu.io;
-        }
-        location ~ ^/haku/? {
-            proxy_ssl_server_name on;
-            set $args 'locale=fi';
-            rewrite (?i)^/haku/(.*)$ /$1 break;
-            proxy_pass https://helsinki-search-results.metatavu.io;
-            proxy_set_header Host helsinki-search-results.metatavu.io;
-        }
-        location ~ ^/sok/? {
-            proxy_ssl_server_name on;
-            set $args 'locale=sv';
-            rewrite (?i)^/sok/(.*)$ /$1 break;
-            proxy_pass https://helsinki-search-results.metatavu.io;
-            proxy_set_header Host helsinki-search-results.metatavu.io;
-        }
-        location ~ ^/search/? {
-            proxy_ssl_server_name on;
-            set $args 'locale=en';
-            rewrite (?i)^/search/(.*)$ /$1 break;
-            proxy_pass https://helsinki-search-results.metatavu.io;
-            proxy_set_header Host helsinki-search-results.metatavu.io;
-        }
-
         {{- if .Values.redirections.enabled }}
         # -------------------------------------------------------
         # Env-jump and custom redirects
